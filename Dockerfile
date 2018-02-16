@@ -5,9 +5,7 @@ WORKDIR /go/src/github.com/seiji-thirdbridge/shippy-user-cli
 
 COPY . .
 
-RUN go get -u github.com/golang/dep/cmd/dep
-RUN dep init && dep ensure
-
+RUN go get
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
 
 FROM alpine:latest
@@ -15,8 +13,8 @@ FROM alpine:latest
 RUN mkdir -p /app
 WORKDIR /app
 
-COPY --from=builder /go/src/github.com/seiji-thirdbridge/shippy-user-cli/user-cli .
+COPY --from=builder /go/src/github.com/seiji-thirdbridge/shippy-user-cli/shippy-user-cli .
 
-ENTRYPOINT ["./user-cli"]
+ENTRYPOINT ["./shippy-user-cli"]
 
-CMD ["./user-cli"]
+CMD ["./shippy-user-cli"]
